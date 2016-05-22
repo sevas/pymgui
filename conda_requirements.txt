@@ -1,0 +1,3 @@
+cffi
+pyopengl
+pyopengl-accelerate
