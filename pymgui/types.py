@@ -32,3 +32,26 @@ class ImColor(object):
     def rgba(self):
         scale = 255.0
         return tuple([int(self._value.x * scale), int(self._value.y * scale), int(self._value.z * scale), int(self._value.w * scale)])
+
+
+class IO(object):
+    def __init__(self, io):
+        self._io = io
+
+    @property
+    def display_size(self):
+        return self._io.DisplaySize
+
+    @display_size.setter
+    def display_size(self, value):
+        if isinstance(value, tuple):
+            value = ImVec2(*value)
+        self._io.DisplaySize = value
+
+    @property
+    def delta_time(self):
+        return self._io.DeltaTime
+
+    @property
+    def fonts(self):
+        return self._io.Fonts

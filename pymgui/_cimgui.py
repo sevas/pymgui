@@ -12,6 +12,7 @@ with open(CIMGUI_TYPES_FPATH) as f:
 
 ffi.cdef("""
 
+// infra
 ImGuiIO*         igGetIO();
 ImGuiStyle*      igGetStyle();
 ImDrawData*      igGetDrawData();
