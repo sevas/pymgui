@@ -64,6 +64,9 @@ if(NOT EXISTS ${pymgui_DIR})
 	file(MAKE_DIRECTORY ${pymgui_DIR})
 endif()
 
+#add_custom_command(TARGET cimgui POST_BUILD
+#	COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_FILE:cimgui> ${pymgui_DIR}
+#	COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_PDB_FILE:cimgui> ${pymgui_DIR})
+
 add_custom_command(TARGET cimgui POST_BUILD
-	COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_FILE:cimgui> ${pymgui_DIR}
-	COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_PDB_FILE:cimgui> ${pymgui_DIR})
+	COMMAND python ${CMAKE_SOURCE_DIR}/scripts/copy_binaries_to_pythondir.py --config $<CONFIGURATION> --target-file $<TARGET_FILE:cimgui> --dest ${pymgui_DIR})
