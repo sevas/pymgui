@@ -29,8 +29,8 @@ C = _cimgui.C
 def begin(name, opened, flags=0):
     s = ffi.new("const char[]", bytes(name, 'ascii'))
     b = ffi.new("bool*", opened)
-    C.igBegin(s, b, flags)
+    return C.igBegin(s, b, flags)
 
 
 def end():
-    _cimgui.C.end()
+    C.igEnd()

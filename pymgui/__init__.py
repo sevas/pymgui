@@ -1,6 +1,4 @@
-from .types import ImVec2, ImVec4, ImColor
-from ._cimgui import ffi, C
-
+from .types import *
 from .pymgui import *
 from .window import *
 from .button import *

@@ -1,4 +1,5 @@
-from ._cimgui import ffi
+from ._cimgui import ffi, C
+from collections import namedtuple
 
 
 def ImVec2(x=0.0, y=0.0):
@@ -46,7 +47,8 @@ class IO(object):
     def display_size(self, value):
         if isinstance(value, tuple):
             value = ImVec2(*value)
-        self._io.DisplaySize = value
+        self._io.DisplaySize.x = value.x
+        self._io.DisplaySize.y = value.y
 
     @property
     def delta_time(self):
@@ -55,3 +57,49 @@ class IO(object):
     @property
     def fonts(self):
         return self._io.Fonts
+
+CommandList = namedtuple("CommandList", 'cdata_ptr command_list_count')
+
+
+class ImDrawData(object):
+    def __init__(self, c_im_draw_data):
+        self._im_draw_data = c_im_draw_data
+
+    @property
+    def valid(self):
+        """bool: whether or not the draw data is valid
+
+        Only valid after Render() is called and before the next NewFrame() is called.
+        """
+        return self._im_draw_data[0].Valid
+
+    @property
+    def cmd_lists(self):
+        """<CData ImDrawLists**>: pointer to the list of draw commands to render
+
+        Consider this an opaque pointer to pass to the ImDrawList_* collection of functions
+        """
+        return self._im_draw_data[0].CmdLists
+
+    def cmd_lists_count(self):
+        """int: number of commands in the """
+        return self._im_draw_data[0].CmdListsCount
+
+    @property
+    def total_vertex_count(self):
+        """int: sum of all cmd_lists vtx_buffer.Size"""
+        return self._im_draw_data[0].TotalVtxCount
+
+    @property
+    def total_index_count(self):
+        """int: sum of all cmd_lists idx_buffer.Size"""
+        return self._im_draw_data[0].TotalIdxCount
+
+
+
+# class ImDrawList(object):
+#     def __init__(self, cdata_draw_list):
+#         self._cmd_lists = cdata_draw_list
+#
+#     def _parse_cmd_lists(self):
+#
