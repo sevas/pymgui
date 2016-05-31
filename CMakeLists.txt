@@ -8,4 +8,4 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/_outputs/bin)
 set(CMAKE_DEBUG_POSTFIX d)
 
 add_subdirectory(deps)
-add_subdirectory(samples/cimgui_app)
+# add_subdirectory(samples/cimgui_app)

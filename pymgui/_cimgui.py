@@ -1,4 +1,5 @@
 import os
+import platform
 from cffi import FFI
 
 THIS_DIR = os.path.abspath(os.path.dirname(__file__))
@@ -434,11 +435,14 @@ void             ImDrawList_UpdateTextureID(ImDrawList* list);
 
 """)
 
+if platform.system() == "Windows":
+    DLL_FNAME = "cimguid.dll"
+elif platform.system() == "Darwin":
+    DLL_FNAME = "libcimgui.dylib"
 
-DLL_FPATH = os.path.join(THIS_DIR, "_dlls", "cimguid.dll")
 
+DLL_FPATH = os.path.join(THIS_DIR, "_dlls", DLL_FNAME)
 C = ffi.dlopen(DLL_FPATH)
-
 
 print(ffi.list_types())
 

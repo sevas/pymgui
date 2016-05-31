@@ -41,12 +41,15 @@ add_library(cimgui SHARED
 	${cimgui_SOURCE_FILES}
 	${cimgui_HEADER_FILES})
 
-target_link_libraries(cimgui PUBLIC ${glfw_LIBRARIES} opengl32.lib)
+
+if(WIN32)
+	target_link_libraries(cimgui PRIVATE opengl32.lib)
+endif()
+
 
 target_include_directories(cimgui
 	PUBLIC
 		$<BUILD_INTERFACE:${cimgui_DIR}>
-		$<BUILD_INTERFACE:${glfw_INCLUDE_DIRS}>
 		$<BUILD_INTERFACE:${imgui_gl2_backend_DIR}>
 		$<BUILD_INTERFACE:${cimgui_types_DIR}>
 	PRIVATE
@@ -68,5 +71,10 @@ endif()
 #	COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_FILE:cimgui> ${pymgui_DIR}
 #	COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_PDB_FILE:cimgui> ${pymgui_DIR})
 
-add_custom_command(TARGET cimgui POST_BUILD
-	COMMAND python ${CMAKE_SOURCE_DIR}/scripts/copy_binaries_to_pythondir.py --config $<CONFIGURATION> --target-file $<TARGET_FILE:cimgui> --dest ${pymgui_DIR})
+if(WIN32)
+	add_custom_command(TARGET cimgui POST_BUILD
+		COMMAND python ${CMAKE_SOURCE_DIR}/scripts/copy_binaries_to_pythondir.py --config $<CONFIGURATION> --target-file $<TARGET_FILE:cimgui> --dest ${pymgui_DIR})
+else()
+	add_custom_command(TARGET cimgui POST_BUILD
+		COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:cimgui> ${pymgui_DIR})
+endif()
