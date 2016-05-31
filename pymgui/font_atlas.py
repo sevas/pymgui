@@ -22,15 +22,19 @@ C = _cimgui.C
 
 
 def get_tex_data_as_rgba32(font_atlas):
-    pixels = ffi.new("unsigned char*")
+    pixels = ffi.new("unsigned char**")
     width = ffi.new("int*")
     height = ffi.new("int*")
     bpp = ffi.new("int*")
     C.ImFontAtlas_GetTexDataAsRGBA32(
         font_atlas,
-        ffi.addressof(pixels),
-        ffi.addressof(width),
-        ffi.addressof(height),
-        ffi.addressof(bpp),
+        pixels,
+        width,
+        height,
+        bpp,
     )
-    return pixels, width, height, bpp
+    w, h, c = width[0], height[0], bpp[0]
+    buf =  ffi.buffer(pixels[0], w*h*c)
+    texture_atlas = np.frombuffer(buf, dtype=np.uint8)
+    texture_atlas = texture_atlas.reshape(h, w, c)
+    return texture_atlas
