@@ -4,8 +4,6 @@ from . import _cimgui
 ffi = _cimgui.ffi
 C = _cimgui.C
 
-
-
 # void             ImFontConfig_DefaultConstructor(ImFontConfig* config);
 #
 # void             ImFontAtlas_GetTexDataAsRGBA32(ImFontAtlas* atlas, unsigned char** out_pixels, int* out_width, int* out_height, int* out_bytes_per_pixel);
@@ -19,7 +17,6 @@ C = _cimgui.C
 # ImFont*          ImFontAtlas_AddFontFromMemoryCompressedBase85TTF(ImFontAtlas* atlas, const char* compressed_ttf_data_base85, float size_pixels, const ImFontConfig* font_cfg, const ImWchar* glyph_ranges);
 # void             ImFontAtlas_ClearTexData(ImFontAtlas* atlas);
 # void             ImFontAtlas_Clear(ImFontAtlas* atlas);
-
 
 def get_tex_data_as_rgba32(font_atlas):
     pixels = ffi.new("unsigned char**")

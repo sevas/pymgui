@@ -1,14 +1,12 @@
 import pymgui
-from pymgui._cimgui import ffi
 import os
 
 import matplotlib.pyplot as plt
 plt.set_cmap('viridis')
 
 
-@ffi.callback("void (ImDrawData*)")
 def render(draw_data):
-    d = pymgui.ImDrawData(draw_data)
+    d = draw_data
     d.valid
     print(d.valid)
     print(d.total_vertex_count)
@@ -18,12 +16,14 @@ def render(draw_data):
 
 def main():
     io = pymgui.get_io()
-    io._io.RenderDrawListsFn = render
+    io.render_draw_list_func = render
 
     font_atlas = io.fonts
     font_atlas_texture = pymgui.get_tex_data_as_rgba32(font_atlas)
 
     io.display_size = (640, 480)
+
+    x = io.mouse_drag_threshold
 
     clear_color = pymgui.ImColor(114, 144, 154, 255)
     button_size = pymgui.ImVec2(30,50)
