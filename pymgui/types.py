@@ -316,7 +316,32 @@ class ImDrawData(object):
         return self._im_draw_data[0].TotalIdxCount
 
 
-
 class ImDrawVertex(object):
     def __init__(self):
         pass
+
+
+class ImDrawCmd(object):
+    def __init__(self, imdrawcmd_cdata):
+        self._cdata = imdrawcmd_cdata
+
+    @property
+    def elem_count(self):
+        """uint: Number of indices (multiple of 3) to be rendered as triangles. Vertices are stored in the callee ImDrawList's vtx_buffer[] array, indices in idx_buffer[]."""
+        return int(self._cdata[0].ElemCount)
+
+    @property
+    def clip_rect(self):
+        """tuple: Clipping rectangle(x1, y1, x2, y2)"""
+        r = self._cdata[0].ClipRect
+        return r.x, r.y, r.z, r.w
+
+    @property
+    def texture_id(self):
+        """int: User-provided texture ID. Set by user in ImfontAtlas::SetTexID() for fonts or passed to Image*() functions. Ignore if never using images or multiple fonts atlas"""
+
+        x = ffi.cast("int*", self._cdata[0].TextureId)
+        if x:
+            return int(x[0])
+        else:
+            return None
