@@ -41,11 +41,10 @@ class ImColor(object):
 @ffi.callback("void (ImDrawData*)")
 def stub_render(draw_data):
     d = ImDrawData(draw_data)
-    print(d.valid)
-    print(d.total_vertex_count)
-    print(d.total_index_count)
+    print("valid?        {}".format(d.valid))
+    print("vertex_count: {}".format(d.total_vertex_count))
+    print("index_count:  {}".format(d.total_index_count))
     cmds = d.cmd_lists
-
 
 
 class IO(object):
